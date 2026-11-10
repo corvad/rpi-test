@@ -11,6 +11,7 @@ image:
 
 layer:
   base: trixie-minbase
+  app: hello
 
 locale:
   default: en_US.UTF-8
