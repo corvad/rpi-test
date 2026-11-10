@@ -8,6 +8,3 @@ device:
 
 image:
   name: console
-
-layer:
-  app: test
