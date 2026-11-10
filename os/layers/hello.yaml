@@ -1,0 +1,13 @@
+# METABEGIN
+# X-Env-Layer-Name: hello
+# X-Env-Layer-Category: app
+# X-Env-Layer-Desc: Installs the hello Go binary and its systemd service.
+# X-Env-Layer-Version: 1.0.0
+# X-Env-Layer-Requires: systemd-min
+# METAEND
+---
+mmdebstrap:
+  customize-hooks:
+    - install -D -m 0755 assets/hello $1/usr/local/bin/hello
+    - install -D -m 0644 assets/hello.service $1/etc/systemd/system/hello.service
+    - $BDEBSTRAP_HOOKS/enable-units "$1" hello

@@ -1,0 +1,12 @@
+[Unit]
+Description=Hello Go app
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/hello
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

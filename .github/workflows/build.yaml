@@ -10,6 +10,11 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v6
+      
+      - uses: actions/setup-go@v6
+      
+      - name: Build app
+        run: CGO_ENABLED=0 go build -C app -trimpath -o "$GITHUB_WORKSPACE/os/assets/hello" .
 
       - name: Update
         run: sudo apt-get update
@@ -23,7 +28,7 @@ jobs:
 
       - name: Build image
         working-directory: rpi-image-gen
-        run: ./rpi-image-gen build -S "$GITHUB_WORKSPACE/os" -c os.yaml
+        run: ./rpi-image-gen build -S "$GITHUB_WORKSPACE/os" -c image.yaml
 
       - name: Collect release files
         run: |
