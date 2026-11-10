@@ -1,0 +1,23 @@
+name: Image Build
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      - name: Update
+        run: sudo apt-get update
+
+      - name: Clone rpi-image-gen
+        run: git clone --depth 1 https://github.com/raspberrypi/rpi-image-gen.git
+
+      - name: Install dependencies
+        working-directory: rpi-image-gen
+        run: sudo ./install_deps.sh
+
+      - name: Build image
+        working-directory: rpi-image-gen
+        run: ./rpi-image-gen build -c ./config/trixie-minbase.yaml
