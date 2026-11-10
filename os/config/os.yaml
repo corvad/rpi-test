@@ -1,0 +1,13 @@
+# Inherit all settings from this file, overriding relevant ones for this example.
+# Installing additional packages may require increasing system_part_size.
+include:
+  file: trixie-minbase-ab.yaml
+
+device:
+  hostname: test-01234
+
+image:
+  name: console
+
+layer:
+  app: test
