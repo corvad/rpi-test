@@ -1,0 +1,19 @@
+device:
+  layer: rpi5
+  hostname: test-01234
+
+image:
+  layer: image-rota
+  boot_part_size: 128M
+  system_part_size: 512M
+  data_part_size: 6G
+  name: console
+
+layer:
+  base: trixie-minbase
+
+locale:
+  default: en_US.UTF-8
+  keyboard_keymap: us
+  keyboard_layout: English (US)
+  timezone: America/Chicago
