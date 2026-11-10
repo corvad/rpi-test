@@ -3,7 +3,6 @@ on: [push]
 
 permissions:
   contents: write
-  id-token: write
 
 jobs:
   build:
@@ -24,16 +23,16 @@ jobs:
 
       - name: Build image
         working-directory: rpi-image-gen
-        run: ./rpi-image-gen build -c ./config/trixie-minbase.yaml
+        run: ./rpi-image-gen build -S "$GITHUB_WORKSPACE/os" -c os.yaml
 
       - name: Collect release files
         run: |
           mkdir release
-          cp rpi-image-gen/work/deploy-*/* release/
+          find rpi-image-gen/work/deploy-* -maxdepth 1 -type f -exec cp -t release {} +
           cd release
           zstd -d --rm *.sbom.zst
           sha256sum * > SHA256SUMS
-          
+
       - name: Publish release
         if: startsWith(github.ref, 'refs/tags/')
         env:
