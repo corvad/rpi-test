@@ -1,5 +1,9 @@
-name: Image Build
+name: Image Build & Push
 on: [push]
+
+permissions:
+  contents: write
+  id-token: write
 
 jobs:
   build:
@@ -21,3 +25,17 @@ jobs:
       - name: Build image
         working-directory: rpi-image-gen
         run: ./rpi-image-gen build -c ./config/trixie-minbase.yaml
+
+      - name: Collect release files
+        run: |
+          mkdir release
+          cp rpi-image-gen/work/deploy-*/* release/
+          cd release
+          zstd -d --rm *.sbom.zst
+          sha256sum * > SHA256SUMS
+          
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" release/* --generate-notes
